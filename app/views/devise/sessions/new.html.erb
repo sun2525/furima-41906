@@ -11,6 +11,11 @@
     <%= flash[:notice] %>
     <%= flash[:alert] %>
   </div>
+
+  <%# インスタンスを渡して、エラー発生時にメッセージが表示されるようにしましょう。%>
+  <%=  render 'shared/error_messages', model: f.object %>
+  <%# //インスタンスを渡して、エラー発生時にメッセージが表示されるようにしましょう。%>
+
   <div class="form-group">
     <div class='form-text-wrap'>
       <label class="form-text">メールアドレス</label>
