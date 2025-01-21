@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
+  devise_for :users     # rails g deviseコマンドで自動生成される
+  resources :users, only: :show
   get 'items', to: 'items#index'
   root to: "items#index"
+
 
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
