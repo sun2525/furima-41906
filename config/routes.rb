@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users     # rails g deviseコマンドで自動生成される
   resources :users, only: :show
+  resources :items, only: [:new, :create]
   get 'items', to: 'items#index'
   root to: "items#index"
 
