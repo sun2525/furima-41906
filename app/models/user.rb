@@ -18,4 +18,6 @@ class User < ApplicationRecord
 
   # 生年月日が必須
   validates :birthday, presence: true
+
+  has_many :items
 end
