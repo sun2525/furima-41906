@@ -1,6 +1,6 @@
 class Item < ApplicationRecord
   # ユーザーと紐付ける（出品者を特定するため）
-  
+
   belongs_to :user
   # ActiveStorageを利用して画像を添付できるようにする
   has_one_attached :image
@@ -17,7 +17,7 @@ class Item < ApplicationRecord
   # バリデーション（入力チェック）
   with_options presence: true do
     # 商品画像が添付されているかを確認
-    validates :image
+    validates :image, presence: true, unless: :image_attached?
     # 商品名が空でないかを確認
     validates :name
     # 商品説明が空でないかを確認
@@ -33,9 +33,13 @@ class Item < ApplicationRecord
     # 発送までの日数が「---」（ID: 1）以外を選択しているかを確認
     validates :shipping_day_id, numericality: { other_than: 1 }
     # 価格が指定の範囲内にあるかを確認
-    validates :price, numericality: { 
-      greater_than_or_equal_to: 300,  # 価格が300円以上
-      less_than_or_equal_to: 9_999_999,  # 価格が9,999,999円以下
+    validates :price, numericality: {
+      greater_than_or_equal_to: 300, # 価格が300円以上
+      less_than_or_equal_to: 9_999_999 # 価格が9,999,999円以下
     }
+  end
+
+  def image_attached?
+    image.attached?
   end
 end
