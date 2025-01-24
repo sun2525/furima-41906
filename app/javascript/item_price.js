@@ -1,4 +1,5 @@
-document.addEventListener('DOMContentLoaded', () => {
+// 販売価格計算処理
+const calculatePrice = () => {
   const priceInput = document.getElementById('item-price'); // 販売価格の入力フィールド
   const feeDisplay = document.getElementById('add-tax-price'); // 手数料表示用
   const profitDisplay = document.getElementById('profit'); // 利益表示用
@@ -20,4 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
-});
+};
+
+// イベントリスナーの登録
+window.addEventListener('turbo:load', calculatePrice);
+window.addEventListener('turbo:render', calculatePrice);
