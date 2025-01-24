@@ -1,14 +1,9 @@
 Rails.application.routes.draw do
-  devise_for :users     # rails g deviseコマンドで自動生成される
-  resources :users, only: :show
-  resources :items, only: [:new, :create]
-  get 'items', to: 'items#index'
+  devise_for :users # Deviseによるユーザー認証ルート
+
+  # アイテム関連のルート
+  resources :items, only: [:new, :create, :index]
+
+  # ルートページの設定
   root to: "items#index"
-
-
-
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
-  # get "up" => "rails/health#show", as: :rails_health_check
-
 end
