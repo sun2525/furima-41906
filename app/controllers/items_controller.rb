@@ -20,7 +20,6 @@ class ItemsController < ApplicationController
 
   def show
     @item = Item.find(params[:id])
-    @is_owner = user_signed_in? && current_user == @item.user
   end
 
   private
