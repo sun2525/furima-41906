@@ -4,6 +4,7 @@ class Item < ApplicationRecord
   belongs_to :user
   # ActiveStorageを利用して画像を添付できるようにする
   has_one_attached :image
+  has_one :purchase
 
   extend ActiveHash::Associations::ActiveRecordExtensions
   # ActiveHashの関連付けを利用するためのモジュールを拡張

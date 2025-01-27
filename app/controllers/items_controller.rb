@@ -2,6 +2,7 @@ class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create]
 
   def index
+    @items = Item.includes(:user).order(created_at: :desc) # 商品を取得して変数に格納
   end
 
   def new
