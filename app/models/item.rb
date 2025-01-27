@@ -38,7 +38,7 @@ class Item < ApplicationRecord
       greater_than_or_equal_to: 300, # 価格が300円以上
       less_than_or_equal_to: 9_999_999, # 価格が9,999,999円以下
       only_integer: true # 小数値の入力を制限する
-}
+    }
   end
 
   def image_attached?
