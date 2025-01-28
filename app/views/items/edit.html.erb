@@ -10,7 +10,7 @@ app/assets/stylesheets/items/new.css %>
     <%= form_with model: @item, local: true do |f| %>
 
     <%# インスタンスを渡して、エラー発生時にメッセージが表示されるようにしましょう。%>
-    <% render 'shared/error_messages', model: f.object %>
+    <%= render 'shared/error_messages', model: f.object %>
     <%# //インスタンスを渡して、エラー発生時にメッセージが表示されるようにしましょう。%>
 
     <%# 商品画像 %>
@@ -101,7 +101,7 @@ app/assets/stylesheets/items/new.css %>
             <span class="indispensable">必須</span>
           </div>
           <span class="sell-yen">¥</span>
-          <%= f.text_field :hoge, class:"price-input", id:"item-price", placeholder:"例）300" %>
+          <%= f.text_field :price, class:"price-input", id:"item-price", placeholder:"例）300" %>
         </div>
         <div class="price-content">
           <span>販売手数料 (10%)</span>
