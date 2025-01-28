@@ -2,6 +2,7 @@ class Item < ApplicationRecord
   # ユーザーと紐付ける（出品者を特定するため）
 
   belongs_to :user
+  has_one :purchase
   # ActiveStorageを利用して画像を添付できるようにする
   has_one_attached :image
 

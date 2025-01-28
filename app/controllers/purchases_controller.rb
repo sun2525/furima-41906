@@ -1,29 +1,29 @@
 class PurchasesController < ApplicationController
   # 購入するアイテムを特定するためのメソッドを、indexとcreateアクション実行前に呼び出し
   before_action :set_item, only: [:index, :create]
-  
+
   # ユーザーがログインしているかを確認
   before_action :authenticate_user!
 
   def index
     # 購入済み商品の場合はトップページへリダイレクト
     if @item.purchase.present?
-      redirect_to root_path, alert: 'この商品はすでに購入されています。'
+      redirect_to root_path
     else
-      # OrderAddressオブジェクトを新規作成（購入ページに表示されるフォーム用）
-      @order_address = OrderAddress.new
+      # PurchaseAddressオブジェクトを新規作成（購入ページに表示されるフォーム用）
+      @purchase_address = PurchaseAddress.new
     end
   end
 
   def create
-    # フォームから送られたデータを基にOrderAddressオブジェクトを作成
-    @order_address = OrderAddress.new(order_address_params)
-    
+    # フォームから送られたデータを基にPurchaseAddressオブジェクトを作成
+    @purchase_address = PurchaseAddress.new(purchase_address_params)
+
     # バリデーションが成功した場合のみ保存を実行
-    if @order_address.valid?
-      @order_address.save
+    if @purchase_address.valid?
+      @purchase_address.save
       # 保存が成功したらトップページにリダイレクトし、購入完了メッセージを表示
-      redirect_to root_path, notice: '購入が完了しました。'
+      redirect_to root_path
     else
       # 保存が失敗した場合、購入ページを再表示
       render :index
@@ -38,8 +38,8 @@ class PurchasesController < ApplicationController
   end
 
   # 購入フォームから送信されたパラメータを許可し、追加情報をマージするメソッド
-  def order_address_params
-    params.require(:order_address).permit(
+  def purchase_address_params
+    params.require(:purchase_address).permit(
       :postal_code,       # 郵便番号
       :prefecture_id,     # 都道府県
       :city,              # 市区町村
