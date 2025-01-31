@@ -23,7 +23,7 @@ class PurchaseAddress
     validates :phone_number, format: { with: /\A\d{10,11}\z/ }
     
     # トークンが必須（クレジットカード情報のトークン）
-    # validates :token
+    validates :token
     
     # ユーザーIDと商品IDも必須
     validates :user_id
