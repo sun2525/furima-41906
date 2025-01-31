@@ -2,17 +2,17 @@ class PurchasesController < ApplicationController
   require 'payjp'
   # 購入するアイテムを特定するためのメソッドを、indexとcreateアクション実行前に呼び出し
   before_action :set_item, only: [:index, :create]
-  
+
   before_action :authenticate_user! # ユーザーがログインしているかを確認
 
-  before_action :redirect_if_invalid_access  # 出品者または売却済みならリダイレクト
+  before_action :redirect_if_invalid_access # 出品者または売却済みならリダイレクト
 
   def index
     # 購入済み商品の場合はトップページへリダイレクト
     if @item.purchase.present?
       redirect_to root_path
     else
-      gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
+      gon.public_key = ENV['PAYJP_PUBLIC_KEY']
       # PurchaseAddressオブジェクトを新規作成（購入ページに表示されるフォーム用）
       @purchase_address = PurchaseAddress.new
     end
@@ -28,7 +28,7 @@ class PurchasesController < ApplicationController
       # 保存が成功したらトップページにリダイレクトし、購入完了メッセージを表示
       redirect_to root_path
     else
-      gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
+      gon.public_key = ENV['PAYJP_PUBLIC_KEY']
       # 保存が失敗した場合、購入ページを再表示
       render :index, status: :unprocessable_entity
     end
@@ -51,26 +51,26 @@ class PurchasesController < ApplicationController
       :building_name,     # 建物名（任意）
       :phone_number       # 電話番号
     ).merge(
-      user_id: current_user.id,  # ログイン中のユーザーIDを追加
-      item_id: @item.id,        # 購入対象アイテムのIDを追加
-      token: params[:token]      # トークン情報を追加（クレジットカード処理用）
+      user_id: current_user.id, # ログイン中のユーザーIDを追加
+      item_id: @item.id, # 購入対象アイテムのIDを追加
+      token: params[:token] # トークン情報を追加（クレジットカード処理用）
     )
   end
-  
+
   def redirect_if_invalid_access
     # 条件1: 出品者がアクセスしようとした場合
     # 条件2: 売却済みの商品にアクセスしようとした場合
-    if current_user == @item.user || @item.purchase.present?
-      redirect_to root_path
-    end
+    return unless current_user == @item.user || @item.purchase.present?
+
+    redirect_to root_path
   end
 
   def pay_item
-    Payjp.api_key = ENV["PAYJP_SECRET_KEY"] # 秘密鍵を読み込む
+    Payjp.api_key = ENV['PAYJP_SECRET_KEY'] # 秘密鍵を読み込む
     Payjp::Charge.create(
-      amount: @item.price,  # 商品の値段（適切に設定された価格）
+      amount: @item.price, # 商品の値段（適切に設定された価格）
       card: @purchase_address.token,    # カードトークン
       currency: 'jpy'                   # 通貨の種類（日本円）
     )
-  end  
+  end
 end

@@ -9,7 +9,7 @@ class ItemsController < ApplicationController
   before_action :redirect_if_not_owner, only: [:edit, :update, :destroy]
 
   # 売却済み商品の編集・更新を制限
-  before_action :redirect_if_sold_out, only: [:edit, :update] 
+  before_action :redirect_if_sold_out, only: [:edit, :update]
 
   # 商品一覧ページ
   def index
@@ -79,8 +79,8 @@ class ItemsController < ApplicationController
 
   def redirect_if_sold_out
     # 商品が売却済み（購入情報が存在する）場合はトップページへリダイレクト
-    if @item.purchase.present?
-      redirect_to root_path
-    end
+    return unless @item.purchase.present?
+
+    redirect_to root_path
   end
 end
