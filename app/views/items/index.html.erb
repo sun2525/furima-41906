@@ -135,12 +135,13 @@
             <div class='item-img-content'>
               <%= image_tag item.image.attached? ? url_for(item.image) : "item-sample.png", class: "item-img" %>
 
-              <%# 商品が売れていればsold outを表示しましょう %>
+              <%# 商品が売れていればsold outを表示 %>
+              <% if item.purchase.present? %>
                 <div class='sold-out'>
                   <span>Sold Out!!</span>
                 </div>
-              <%# //商品が売れていればsold outを表示しましょう %>
-
+              <% end %>
+              
             </div>
             <div class='item-info'>
               <h3 class='item-name'>

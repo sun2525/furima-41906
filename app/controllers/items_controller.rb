@@ -8,6 +8,9 @@ class ItemsController < ApplicationController
   # 出品者以外はアクセスできないようにリダイレクトするbefore_action
   before_action :redirect_if_not_owner, only: [:edit, :update, :destroy]
 
+  # 売却済み商品の編集・更新を制限
+  before_action :redirect_if_sold_out, only: [:edit, :update]
+
   # 商品一覧ページ
   def index
     @items = Item.includes(:user).order(created_at: :desc) # 商品を取得して変数に格納
@@ -72,5 +75,12 @@ class ItemsController < ApplicationController
     return if current_user == @item.user # 出品者が一致していれば処理を進める
 
     redirect_to root_path # 出品者でなければトップページにリダイレクト
+  end
+
+  def redirect_if_sold_out
+    # 商品が売却済み（購入情報が存在する）場合はトップページへリダイレクト
+    return unless @item.purchase.present?
+
+    redirect_to root_path
   end
 end
